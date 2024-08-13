@@ -1,8 +1,8 @@
-import BaseInput from "./components/BaseInput";
-import { useState } from "react";
+// import BaseInput from "./components/BaseInput";
+import { ChangeEvent, useState } from "react";
 
 const App = () => {
-  const morse = {
+  const morse: { [key: string]: string } = {
     a: ".-",
     b: "-...",
     c: "-.-.",
@@ -29,16 +29,16 @@ const App = () => {
     x: "-..-",
     y: "-.--",
     z: "--..",
-    1: ".----",
-    2: "..---",
-    3: "...--",
-    4: "....-",
-    5: ".....",
-    6: "-....",
-    7: "--...",
-    8: "---..",
-    9: "----.",
-    0: "-----",
+    "1": ".----",
+    "2": "..---",
+    "3": "...--",
+    "4": "....-",
+    "5": ".....",
+    "6": "-....",
+    "7": "--...",
+    "8": "---..",
+    "9": "----.",
+    "0": "-----",
     "?": "..--..",
     "!": "-.-.--",
     ".": ".-.-.-",
@@ -53,6 +53,14 @@ const App = () => {
   const [text, setText] = useState("");
   const [morseCode, setMorseCode] = useState("");
 
+  const handleTextInput = (e: ChangeEvent<HTMLTextAreaElement>): void => {
+    let newMorseCode = "";
+    setText(e.target.value);
+
+    [...e.target.value].forEach((letter) => (newMorseCode += morse[letter]));
+    setMorseCode(newMorseCode);
+  };
+
   return (
     <>
       <div className="bg-gray-100 min-h-screen">
@@ -61,23 +69,25 @@ const App = () => {
             Morse Code Converter
           </h1>
         </header>
-        <main className="text-center">
-          <div className="flex flex-col justify-center mt-[10%] gap-8 mx-auto w-[50%]">
-            <BaseInput
-              id="morse-input"
-              label="Morse Code"
-              placeholder="Morse Code"
-              value={morseCode}
-              onChange={(e) => setMorseCode(e.target.value)}
-            />
-            <BaseInput
-              id="text-input"
-              label="Text"
-              placeholder="Text"
+        <main className="flex items-center justify-center  bg-gray-100 p-4">
+          <div className="flex flex-col justify-center gap-8 mx-auto w-full max-w-lg bg-white p-6 rounded-lg shadow-lg mt-[4rem]">
+            <textarea
+              name="textString"
+              id="text-string"
+              className="w-full h-24 px-4 py-2 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter your text here..."
               value={text}
-              onChange={(e) => setText(e.target.value)}
+              onChange={handleTextInput}
             />
-            <pre>{morse["!"]}</pre>
+
+            <textarea
+              name="textString"
+              id="text-string"
+              className="w-full h-24 px-4 py-2 border border-gray-300 rounded-sm shadow-sm focus:outline-none focus:ring-2 "
+              placeholder="Morse Code..."
+              disabled
+              value={morseCode}
+            />
           </div>
         </main>
       </div>
