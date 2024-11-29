@@ -1,63 +1,19 @@
 // import BaseInput from "./components/BaseInput";
 import { ChangeEvent, useState } from "react";
+import { MORSE_KEYS } from "./constants";
 
 const App = () => {
-  const morse: { [key: string]: string } = {
-    a: ".-",
-    b: "-...",
-    c: "-.-.",
-    d: "-..",
-    e: ".",
-    f: "..-.",
-    g: "--.",
-    h: "....",
-    i: "..",
-    j: ".---",
-    k: "-.-",
-    l: ".-..",
-    m: "--",
-    n: "-.",
-    o: "---",
-    p: ".--.",
-    q: "--.-",
-    r: ".-.",
-    s: "...",
-    t: "-",
-    u: "..-",
-    v: "...-",
-    w: ".--",
-    x: "-..-",
-    y: "-.--",
-    z: "--..",
-    "1": ".----",
-    "2": "..---",
-    "3": "...--",
-    "4": "....-",
-    "5": ".....",
-    "6": "-....",
-    "7": "--...",
-    "8": "---..",
-    "9": "----.",
-    "0": "-----",
-    "?": "..--..",
-    "!": "-.-.--",
-    ".": ".-.-.-",
-    ",": "--..--",
-    ";": "-.-.-.",
-    ":": "---...",
-    "+": ".-.-.",
-    "-": "-....-",
-    "/": "-..-.",
-    "=": "-...-",
-  };
   const [text, setText] = useState("");
   const [morseCode, setMorseCode] = useState("");
 
   const handleTextInput = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     let newMorseCode = "";
-    setText(e.target.value);
+    const newValue = e.target.value.replace(/ /g, '');
+    setText(newValue);
+    console.log('State: ', text);
+    console.log("Event Targe Value: ", e.target.value.trim());
 
-    [...e.target.value].forEach((letter) => (newMorseCode += morse[letter]));
+    [...newValue].forEach((letter) => (newMorseCode += MORSE_KEYS[letter]));
     setMorseCode(newMorseCode);
   };
 
@@ -65,7 +21,7 @@ const App = () => {
     <>
       <div className="bg-gray-100 min-h-screen">
         <header className="flex justify-center items-center h-20 bg-gray-200  drop-shadow-md">
-          <h1 className="text-4xl text-gray-900 font-bold">
+          <h1 className="text-4xl text-gray-800 font-bold">
             Morse Code Converter
           </h1>
         </header>
